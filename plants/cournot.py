@@ -11,7 +11,9 @@ class CournotCompetitionPlant(Plant):
         # Initial production for Firm 2 (bounded between 0 and 1)
         self.state["q2"] = 0.5
         self.state["price"] = self.params["max_price_pmax"]
-        self.state["profit_p1"] = 0  # Profit for Firm 1
+        self.state["profit_p1"] = self.state["q1"] * \
+            (self.state["price"] - self.state["marginal_cost_cm"])
+        self.target_profit = self.params["target_profit"]
 
     def update(self, control_signal):
         """
@@ -40,9 +42,17 @@ class CournotCompetitionPlant(Plant):
         # Ensure non-negative price
         self.state["price"] = max(pmax - total_q, 0)
 
+        # Don't allow unprofitable production
+        if self.state["price"] < cm:
+            self.state["q1"] = 0
+
         # Compute profit for Firm 1
         self.state["profit_p1"] = self.state["q1"] * (self.state["price"] - cm)
 
     def get_output(self):
         """Return Firm 1's profit (Y), as the controller regulates this."""
         return self.state["profit_p1"]
+
+    def get_error(self):
+        """Return the difference between target profit and actual profit"""
+        return self.get_output() - self.target_profit

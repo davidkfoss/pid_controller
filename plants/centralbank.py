@@ -43,10 +43,10 @@ class MonetaryPolicyPlant(Plant):
         D = self.apply_disturbance()
 
         # Compute next state using discrete-time updates
-        dy_dt = -self.a * (y - self.params["y_target"]) - \
+        dy_dt = -self.a * (y - self.y_target) - \
             self.b * (control_signal - self.r_target)
-        dpi_dt = self.c * (y - self.params["y_target"]) - \
-            self.d * (pi - self.params["pi_target"]) + D
+        dpi_dt = self.c * (y - self.y_target) - \
+            self.d * (pi - self.pi_target) + D
 
         # Update the state
         self.state["output_gap"] += dy_dt
@@ -56,4 +56,8 @@ class MonetaryPolicyPlant(Plant):
         """
         Returns the current inflation rate (pi), which the controller will try to stabilize.
         """
-        return self.state["inflation"], self.state["output_gap"]
+        return self.state["inflation"]
+
+    def get_error(self):
+        """Returns the diffrence between current inflation rate and the target inflation rate."""
+        return self.get_output() - self.pi_target

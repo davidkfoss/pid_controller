@@ -8,6 +8,7 @@ class BathtubPlant(Plant):
         super().__init__(params, disturbance_params)
         self.state["water_height"] = self.params["initial_height_H0"]
         self.gravity = 9.81
+        self.target_height = self.params["target_height"]
 
     def update(self, control_signal):
         """
@@ -42,3 +43,6 @@ class BathtubPlant(Plant):
     def get_output(self):
         """Return the current water height (Y)."""
         return self.state["water_height"]
+
+    def get_error(self):
+        return self.get_output() - self.target_height

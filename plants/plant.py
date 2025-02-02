@@ -21,3 +21,7 @@ class Plant:
     def get_output(self):
         """Return the plant output (Y)."""
         raise NotImplementedError("Subclasses must implement get_output()")
+
+    def get_error(self):
+        """Return the difference between the current error and the target value"""
+        raise NotImplementedError("Subclass must implement get_error()")
