@@ -1,14 +1,16 @@
 from .plant import Plant
-import numpy as np
+import jax.numpy as jnp
 
 
 class BathtubPlant(Plant):
     def __init__(self, params, disturbance_params):
         """Initialize the bathtub model with parameters."""
         super().__init__(params, disturbance_params)
-        self.state["water_height"] = self.params["initial_height_H0"]
+        self.state["water_height"] = self.params["initial_height_h0"]
         self.gravity = 9.81
         self.target_height = self.params["target_height"]
+        self.area_a = self.params["area_a"]
+        self.drain_area_c = self.params["drain_area_c"]
 
     def update(self, control_signal):
         """
@@ -18,11 +20,11 @@ class BathtubPlant(Plant):
         - Drain flow rate (Q)
         """
         h = self.state["water_height"]  # Current height
-        A = self.params["area_A"]  # Bathtub cross-sectional area
-        C = self.params["drain_area_C"]  # Drain cross-sectional area
+        A = self.area_a  # Bathtub cross-sectional area
+        C = self.drain_area_c  # Drain cross-sectional area
 
         # Compute velocity of water exiting through the drain
-        V = np.sqrt(2 * self.gravity * max(h, 0))  # Ensure non-negative H
+        V = jnp.sqrt(2 * self.gravity * max(h, 0))  # Ensure non-negative H
 
         # Compute outflow rate Q
         Q = V * C
