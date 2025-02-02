@@ -1,5 +1,5 @@
 from utils import load_config
-from plants import Bathtub, Cournot
+from plants import BathtubPlant, CournotCompetitionPlant, MonetaryPolicyPlant
 from controllers import PIDController, NeuralNetController
 
 
@@ -19,10 +19,13 @@ def main():
 
     # Initialize plant
     if plant_type == "bathtub":
-        plant = BathtubModel(config["BathtubModel"], disturbance_params)
+        plant = BathtubPlant(config["BathtubPlant"], disturbance_params)
     elif plant_type == "cournot":
-        plant = CournotCompetition(
-            config["CournotCompetition"], disturbance_params)
+        plant = CournotCompetitionPlant(
+            config["CournotCompetitionPlant"], disturbance_params)
+    elif plant_type == "centralbank":
+        plant = MonetaryPolicyPlant(
+            config["MonetaryPolicyPlant"], disturbance_params)
     else:
         raise ValueError(f"Unknown plant type: {plant_type}")
 

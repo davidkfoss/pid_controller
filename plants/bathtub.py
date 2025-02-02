@@ -2,12 +2,12 @@ from .plant import Plant
 import numpy as np
 
 
-class BathtubModel(Plant):
+class BathtubPlant(Plant):
     def __init__(self, params, disturbance_params):
         """Initialize the bathtub model with parameters."""
         super().__init__(params, disturbance_params)
         self.state["water_height"] = self.params["initial_height_H0"]
-        self.gravity = 9.8  # Gravitational constant (m/s²)
+        self.gravity = 9.81
 
     def update(self, control_signal):
         """
@@ -16,12 +16,12 @@ class BathtubModel(Plant):
         - Disturbance (D)
         - Drain flow rate (Q)
         """
-        H = self.state["water_height"]  # Current height
+        h = self.state["water_height"]  # Current height
         A = self.params["area_A"]  # Bathtub cross-sectional area
         C = self.params["drain_area_C"]  # Drain cross-sectional area
 
         # Compute velocity of water exiting through the drain
-        V = np.sqrt(2 * self.gravity * max(H, 0))  # Ensure non-negative H
+        V = np.sqrt(2 * self.gravity * max(h, 0))  # Ensure non-negative H
 
         # Compute outflow rate Q
         Q = V * C
@@ -30,14 +30,14 @@ class BathtubModel(Plant):
         D = self.apply_disturbance()
 
         # Change in volume
-        dB_dt = control_signal + D - Q
+        db_dt = control_signal + D - Q
 
         # Change in height
-        dH_dt = dB_dt / A
+        dh_dt = db_dt / A
 
         # Update water height
         self.state["water_height"] = max(
-            0, self.state["water_height"] + dH_dt)  # Prevent negative height
+            0, self.state["water_height"] + dh_dt)  # Prevent negative height
 
     def get_output(self):
         """Return the current water height (Y)."""

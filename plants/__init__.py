@@ -1,4 +1,5 @@
-from .bathtub import BathtubModel
-from .cournot import CournotCompetition
+from .bathtub import BathtubPlant
+from .cournot import CournotCompetitionPlant
+from .centralbank import MonetaryPolicyPlant
 
-__all__ = ["BathtubModel", "CournotCompetition"]
+__all__ = ["BathtubPlant", "CournotCompetitionPlant", "MonetaryPolicyPlant"]

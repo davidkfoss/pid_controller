@@ -2,7 +2,7 @@ from .plant import Plant
 import numpy as np
 
 
-class CournotCompetition(Plant):
+class CournotCompetitionPlant(Plant):
     def __init__(self, params, disturbance_params):
         """Initialize the Cournot competition model."""
         super().__init__(params, disturbance_params)
