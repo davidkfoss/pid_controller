@@ -7,19 +7,16 @@ class PIDController(Controller):
         super().__init__(params)
 
     def update_params(self, params, grads):
-        g_kp = float(grads[0])
-        g_ki = float(grads[1])
-        g_kd = float(grads[2])
-        print(f"g_kp: {g_kp}, g_ki: {g_ki}, g_kd: {g_kd}")
+        max_norm = 1.0  # ✅ Set a max gradient norm
+        grad_norm = jnp.linalg.norm(grads)
 
-        kp, ki, kd = params
-        print(f"kp: {kp}, ki: {ki}, kd: {kd}")
+        # If gradients exceed max_norm, scale them down
+        grads = jnp.where(grad_norm > max_norm, grads *
+                          (max_norm / grad_norm), grads)
 
-        kp -= self.learning_rate*g_kp
-        ki -= self.learning_rate*g_ki
-        kd -= self.learning_rate*g_kd
-
-        return [kp, ki, kd]
+        print("Updated params: ", params)
+        print("Grads: ", grads)
+        return params - self.learning_rate * grads
 
     def control_signal(self, params, error_history):
         kp, ki, kd = params

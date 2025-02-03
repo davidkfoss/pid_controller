@@ -3,23 +3,22 @@ import jax.numpy as jnp
 
 
 class BathtubPlant(Plant):
-    def __init__(self, params, disturbance_params):
+    def __init__(self, params):
         """Initialize the bathtub model with parameters."""
-        super().__init__(params, disturbance_params)
-        self.state["water_height"] = self.params["initial_height_h0"]
+        super().__init__(params)
         self.gravity = 9.81
-        self.target_height = self.params["target_height"]
-        self.area_a = self.params["area_a"]
-        self.drain_area_c = self.params["drain_area_c"]
+        self.target_height = params["target_height"]
+        self.area_a = params["area_a"]
+        self.drain_area_c = params["drain_area_c"]
 
-    def update(self, control_signal):
+    def update(self, control_signal, plant_state, disturbance):
         """
         Update the bathtub water height based on:
         - Control input (U)
         - Disturbance (D)
         - Drain flow rate (Q)
         """
-        h = self.state["water_height"]  # Current height
+        h = plant_state["water_height"]  # Current height
         A = self.area_a  # Bathtub cross-sectional area
         C = self.drain_area_c  # Drain cross-sectional area
 
@@ -29,22 +28,15 @@ class BathtubPlant(Plant):
         # Compute outflow rate Q
         Q = V * C
 
-        # Get random disturbance (D)
-        D = self.apply_disturbance()
-
         # Change in volume
-        db_dt = control_signal + D - Q
+        db_dt = control_signal + disturbance - Q
 
         # Change in height
         dh_dt = db_dt / A
 
         # Update water height
-        self.state["water_height"] = max(
-            0, self.state["water_height"] + dh_dt)  # Prevent negative height
+        new_height = max(0, h + dh_dt)  # Prevent negative height
+        return {"water_height": new_height}
 
-    def get_output(self):
-        """Return the current water height (Y)."""
-        return self.state["water_height"]
-
-    def get_error(self):
-        return self.get_output() - self.target_height
+    def get_error(self, state):
+        return state["water_height"] - self.target_height

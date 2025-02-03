@@ -2,26 +2,15 @@ import numpy as np
 
 
 class Plant:
-    def __init__(self, params, disturbance_params):
+    def __init__(self, params):
         """Initialize the plant with parameters and optional disturbance."""
-        self.params = params
+        self.initial_state = params
         self.state = {}  # Store plant-specific state variables
-        self.disturbance_range = disturbance_params.get(
-            "disturbance_range", (0, 0)) if disturbance_params else (0, 0)
 
-    def apply_disturbance(self):
-        """Apply random noise from the disturbance range."""
-        d_min, d_max = self.disturbance_range
-        return np.random.uniform(d_min, d_max) if d_min != d_max else 0
-
-    def update(self, control_signal):
+    def update(self, control_signal, plant_state, disturbance):
         """Update the plant state based on the control signal (U)."""
         raise NotImplementedError("Subclasses must implement update()")
 
-    def get_output(self):
-        """Return the plant output (Y)."""
-        raise NotImplementedError("Subclasses must implement get_output()")
-
-    def get_error(self):
+    def get_error(self, state):
         """Return the difference between the current error and the target value"""
         raise NotImplementedError("Subclass must implement get_error()")
