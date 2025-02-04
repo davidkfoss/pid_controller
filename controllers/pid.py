@@ -7,7 +7,7 @@ class PIDController(Controller):
         super().__init__(params)
 
     def update_params(self, params, grads):
-        max_norm = 1.0  # ✅ Set a max gradient norm
+        max_norm = 1.0  # Set a max gradient norm
         grad_norm = jnp.linalg.norm(grads)
 
         # If gradients exceed max_norm, scale them down

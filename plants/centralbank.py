@@ -31,6 +31,7 @@ class MonetaryPolicyPlant(Plant):
         Parameters:
         - control_signal (float): The interest rate set by the controller.
         """
+        print("Renta: ", control_signal)
         # Retrieve state variables
         pi = plant_state["pi"]
         y = plant_state["y"]

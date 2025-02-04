@@ -40,6 +40,8 @@ class ControlSystem:
             plant_state, error = self.run_timestep(
                 params, error_history, plant_state, disturbance)
             error_history.append(error)
+        error_history = [jnp.asarray(err).reshape(())
+                         for err in error_history]
         return jnp.mean(jnp.square(jnp.array(error_history)))
 
     def run_timestep(self, params, error_history, plant_state, disturbance):
@@ -56,7 +58,7 @@ class ControlSystem:
 
 def main():
     # Load configuration
-    plant_type, controller_type, disturbance_params, config = load_config()
+    plant_type, controller_type, disturbance_params, training_epochs, timesteps_per_epoch, config = load_config()
 
     # Initialize plant
     if plant_type == "bathtub":
@@ -78,13 +80,13 @@ def main():
                            config["ClassicPID"]["ki"], config["ClassicPID"]["kd"]])
     elif controller_type == "nn":
         controller = NeuralNetController(config["NeuralNetwork"])
-        params = _  # TODO: Initialize neural network parameters
+        params = controller.gen_jaxnet_params()
     else:
         raise ValueError(f"Unknown controller type: {controller_type}")
 
     # Create the control system and run it
-    consys = ControlSystem(plant, controller, epochs=50,
-                           timesteps=100, params=params, disturbance_params=disturbance_params)
+    consys = ControlSystem(plant, controller, epochs=training_epochs,
+                           timesteps=timesteps_per_epoch, params=params, disturbance_params=disturbance_params)
     # Example with 10 timesteps and target 5
     consys.run()
 

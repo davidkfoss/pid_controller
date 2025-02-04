@@ -23,10 +23,16 @@ def load_config(filename="config.ini"):
                     parsed_config[section][key] = float(value)
             except ValueError:
                 # Keep as string if conversion fails
-                parsed_config[section][key] = value
+                if "," in value:
+                    parsed_config[section][key] = [v.strip()
+                                                   for v in value.split(",")]
+                else:
+                    parsed_config[section][key] = value
 
     plant_type = parsed_config["General"]["plant"]
     controller_type = parsed_config["General"]["controller"]
     disturbance_params = parsed_config.get("Noise", {})
+    training_epochs = int(parsed_config["General"]["training_epochs"])
+    timesteps_per_epoch = int(parsed_config["General"]["timesteps_per_epoch"])
 
-    return plant_type, controller_type, disturbance_params, parsed_config
+    return plant_type, controller_type, disturbance_params, training_epochs, timesteps_per_epoch, parsed_config
