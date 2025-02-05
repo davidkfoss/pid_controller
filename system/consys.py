@@ -35,8 +35,8 @@ class ControlSystem:
     def run_epoch(self, params):
         error_history = [0, 0]
         plant_state = self.plant.initial_state
-        disturbance = self.generate_disturbance()
         for _ in range(self.timesteps):
+            disturbance = self.generate_disturbance()
             plant_state, error = self.run_timestep(
                 params, error_history, plant_state, disturbance)
             error_history.append(error)

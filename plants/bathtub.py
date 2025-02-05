@@ -7,9 +7,9 @@ class BathtubPlant(Plant):
         """Initialize the bathtub model with parameters."""
         super().__init__(params)
         self.gravity = 9.81
-        self.target_height = params["target_height"]
-        self.area_a = params["area_a"]
-        self.drain_area_c = params["drain_area_c"]
+        self.target_height = params["water_height"]
+        self.area_a = params["cross_section_a"]
+        self.area_c = params["cross_section_c"]
 
     def update(self, control_signal, plant_state, disturbance):
         """
@@ -19,11 +19,12 @@ class BathtubPlant(Plant):
         - Drain flow rate (Q)
         """
         h = plant_state["water_height"]  # Current height
+
         A = self.area_a  # Bathtub cross-sectional area
-        C = self.drain_area_c  # Drain cross-sectional area
+        C = self.area_c  # Drain cross-sectional area
 
         # Compute velocity of water exiting through the drain
-        V = jnp.sqrt(2 * self.gravity * max(h, 0))  # Ensure non-negative H
+        V = jnp.sqrt(2 * self.gravity * h)
 
         # Compute outflow rate Q
         Q = V * C
