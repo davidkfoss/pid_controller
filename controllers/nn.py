@@ -2,6 +2,7 @@ from .controller import Controller
 import numpy as np
 import jax
 import jax.numpy as jnp
+np.random.seed(0)
 
 
 class NeuralNetController(Controller):

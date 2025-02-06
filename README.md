@@ -40,7 +40,7 @@ This report presents the implementation and analysis of two control approaches -
 
 #### Analysis
 
-The MSE history plot shows rapid initial convergence from a high error value around 70, quickly dropping to below 10 within the first 20 epochs. The error continues to decrease more gradually converging towards 2.
+The MSE history plot shows rapid initial convergence from a high error value around 70, quickly dropping to below 10 within the first 20 epochs. The error continues to decrease more gradually, reaching 1.6 by epoch 50 and 0.6 by epoch 100 (not in this plot).
 
 The PID parameter history reveals interesting dynamics in the controller's adaptation. Kp (proportional) and Ki (integral) terms show steady negative growth, with Kp reaching approximately -0.4 and Ki approaching -0.8 by the end of training. The Kd (derivative) term remains relatively stable near 0, suggesting minimal influence of the rate of change in the control strategy.
 
@@ -69,7 +69,7 @@ The PID parameter history reveals interesting dynamics in the controller's adapt
 
 #### Analysis
 
-The MSE history demonstrates grear convergence characteristics, starting from an error of approximately 4.0 and rapidly decreasing to below 0.5 within the first 10 epochs. The system maintains stable performance for the remainder of the training period, with the error asymptotically approaching a minimal value around 0.2.
+The MSE history demonstrates grear convergence characteristics, starting from an error of approximately 4.0 and rapidly decreasing to below 0.5 within the first 10 epochs. The system maintains stable performance for the remainder of the training period, with the error asymptotically approaching a minimal value around 0.077.
 
 The PID parameters show distinct evolutionary patterns. The Kp term decreases steadily to approximately -0.15, while Ki and Kd terms stabilize at around 0 and -0.02 respectively, indicating a control strategy that relies primarily on proportional response to profit deviations.
 
@@ -101,7 +101,7 @@ The PID parameters show distinct evolutionary patterns. The Kp term decreases st
 
 #### Analysis
 
-The MSE history plot shows a sharp initial decline from approximately 120 to below 20 within the first 10 epochs. The error continues to decrease more gradually thereafter, reaching a steady state below 5 by epoch 30. This pattern indicates rapid initial learning followed by fine-tuning of the control parameters.
+The MSE history plot shows a sharp initial decline from approximately 120 to below 10 within the first 10 epochs. The error continues to decrease more gradually thereafter, converging at around 0.6. This pattern indicates rapid initial learning followed by fine-tuning of the control parameters.
 
 The PID parameter evolution shows a unique pattern compared to the other systems. All three parameters (Kp, Ki, Kd) show positive growth, with Kp reaching approximately 0.45, Ki around 0.12, and Kd about 0.05 by the end of training. This suggests that the monetary policy control system benefits from a more balanced contribution of all three control terms, with the proportional term playing the dominant role in the response to deviations from target inflation.
 
@@ -132,7 +132,7 @@ The PID parameter evolution shows a unique pattern compared to the other systems
 
 #### Analysis
 
-The MSE history shows quick adaptation and learning, with the error starting at approximately 16 and dropping sharply within the first few epochs to around 1. After this initial rapid decrease, the system continues to improve gradually, maintaining stable performance with an MSE close to 0.5 for the remainder of training. The smooth decay curve suggests that the neural network effectively learned the control strategy without experiencing significant instability or issues.
+The MSE history shows quick adaptation and learning, with the error starting at approximately 16 and dropping sharply within the first few epochs to around 1. After this initial rapid decrease, the system continues to improve gradually, maintaining stable performance with an MSE decreasing to 0.12.
 
 ### 2. Cournot Competition (NN)
 

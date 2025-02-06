@@ -5,7 +5,6 @@ class Plant:
     def __init__(self, params):
         """Initialize the plant with parameters and optional disturbance."""
         self.initial_state = params
-        self.state = {}  # Store plant-specific state variables
 
     def update(self, control_signal, plant_state, disturbance):
         """Update the plant state based on the control signal (U)."""

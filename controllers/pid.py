@@ -26,7 +26,3 @@ class PIDController(Controller):
         D = kd*(error_history[-1]-error_history[-2])
 
         return P+I+D
-
-    def print_params(self, params):
-        kp, ki, kd = params
-        print("kp: " + kp + ", ki: " + ki + ", kd: " + kd)

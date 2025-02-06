@@ -5,6 +5,7 @@ import jax
 import jax.numpy as jnp
 from datetime import datetime as time
 import numpy.random as rnd
+rnd.seed(0)
 
 
 class ControlSystem:
@@ -87,7 +88,7 @@ def main():
     # Create the control system and run it
     consys = ControlSystem(plant, controller, epochs=training_epochs,
                            timesteps=timesteps_per_epoch, params=params, disturbance_params=disturbance_params)
-    # Example with 10 timesteps and target 5
+
     consys.run()
 
 
