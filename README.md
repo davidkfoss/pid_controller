@@ -12,9 +12,9 @@
   - [Monetary Policy](#3-monetary-policy-nn)
 - [Monetary Policy Model Explanation](#monetary-policy-model-explanation)
 
-## Executive Summary
+## Introduction
 
-This report presents the implementation and analysis of two control approaches - Classical PID and Neural Network controllers - applied to three different systems: a bathtub water level control system, a Cournot competition economic model, and a monetary policy control system. Each implementation is evaluated based on its convergence characteristics and control performance. The results demonstrate the effectiveness of both approaches, with each showing distinct advantages in different scenarios.
+This report presents the implementation and analysis of two control approaches - Classical PID and Neural Network controllers - applied to three different systems: a bathtub water level control system, a Cournot competition economic model, and a monetary policy control system.
 
 ## Classical PID Controller
 
@@ -38,7 +38,7 @@ This report presents the implementation and analysis of two control approaches -
 
 ![Bathtub Classic Plot](./plots/report/classic_bathtub.png)
 
-#### Training Progress
+#### Analysis
 
 The MSE history plot shows rapid initial convergence from a high error value around 70, quickly dropping to below 10 within the first 20 epochs. The error continues to decrease more gradually converging towards 2.
 
@@ -67,7 +67,7 @@ The PID parameter history reveals interesting dynamics in the controller's adapt
 
 ![Cournot Classic Plot](./plots/report/classic_cournot.png)
 
-#### Training Progress
+#### Analysis
 
 The MSE history demonstrates grear convergence characteristics, starting from an error of approximately 4.0 and rapidly decreasing to below 0.5 within the first 10 epochs. The system maintains stable performance for the remainder of the training period, with the error asymptotically approaching a minimal value around 0.2.
 
@@ -99,7 +99,7 @@ The PID parameters show distinct evolutionary patterns. The Kp term decreases st
 
 ![Monetary Policy Classic Plot](./plots/report/classic_centralbank.png)
 
-#### Training Progress
+#### Analysis
 
 The MSE history plot shows a sharp initial decline from approximately 120 to below 20 within the first 10 epochs. The error continues to decrease more gradually thereafter, reaching a steady state below 5 by epoch 30. This pattern indicates rapid initial learning followed by fine-tuning of the control parameters.
 
@@ -130,7 +130,7 @@ The PID parameter evolution shows a unique pattern compared to the other systems
 
 ![Bathtub NN Plot](./plots/report/nn_bathtub.png)
 
-#### Training Progress
+#### Analysis
 
 The MSE history shows quick adaptation and learning, with the error starting at approximately 16 and dropping sharply within the first few epochs to around 1. After this initial rapid decrease, the system continues to improve gradually, maintaining stable performance with an MSE close to 0.5 for the remainder of training. The smooth decay curve suggests that the neural network effectively learned the control strategy without experiencing significant instability or issues.
 
@@ -160,7 +160,7 @@ The MSE history shows quick adaptation and learning, with the error starting at 
 
 ![Cournot NN Plot](./plots/report/nn_cournot.png)
 
-#### Training Progress
+#### Analysis
 
 The MSE history demonstrates robust learning behavior, with the error starting at approximately 0.45 and quickly decreasing to around 0.1 within the first 20 epochs. The learning curve shows a smooth, monotonic decrease without significant oscillations, suggesting stable optimization. The final MSE stabilizes at approximately 0.025, indicating that the neural network controller successfully learned to maintain the target profit levels despite market disturbances.
 
@@ -193,7 +193,7 @@ The MSE history demonstrates robust learning behavior, with the error starting a
 
 ![Monetary Policy NN Plot](./plots/report/nn_centralbank.png)
 
-#### Training Progress
+#### Analysis
 
 The error begins at a relatively high value of approximately 300 and shows a sharp initial decline to around 10 within the first 25 epochs. The learning rate was set lower (0.0001) compared to the other systems, leading to a more gradual but stable convergence. After the initial rapid improvement, the system continues to optimize more slowly, eventually reaching and maintaining an MSE below 5 by epoch 200. I used shorter epochs for this run, as the gradients tended to explode with longer training periods.
 
